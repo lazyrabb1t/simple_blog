@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mlxp.dao.ArticleMapper">
+	<resultMap id="BaseResultMap" type="com.mlxp.model.Article">
+		<id column="article_id" jdbcType="INTEGER" property="articleId" />
+		<result column="tittle" jdbcType="VARCHAR" property="tittle" />
+		<result column="author" jdbcType="VARCHAR" property="author" />
+		<result column="belong_type" jdbcType="INTEGER" property="belongType" />
+		<result column="ispublish" jdbcType="INTEGER" property="ispublish" />
+		<result column="iselite" jdbcType="INTEGER" property="iselite" />
+		<result column="ontop" jdbcType="INTEGER" property="ontop" />
+		<result column="liked" jdbcType="INTEGER" property="liked" />
+		<result column="hits" jdbcType="INTEGER" property="hits" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.mlxp.model.Article">
+		<result column="content" jdbcType="LONGVARCHAR" property="content" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		article_id, tittle, author, belong_type, ispublish, iselite, ontop, liked, hits,
+		create_time,
+		update_time
+	</sql>
+	<sql id="Blob_Column_List">
+		content
+	</sql>
+	<sql id="With_Type_Column_List">
+		a.article_id as "articleId",
+		a.tittle as "tittle",
+		a.author as "author",
+		a.belong_type as "belongType",
+		a.ispublish as "ispublish",
+		a.iselite as "iselite",
+		a.ontop as "ontop",
+		a.liked as "liked",
+		a.hits as "hits",
+		a.create_time as "createTime",
+		a.update_time as "updateTime",
+		a.content as "content",
+		b.id as "articleType.id",
+		b.type as "articleType.type"
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultType="com.mlxp.model.Article">
+		select
+		<include refid="With_Type_Column_List" />
+		from article a
+		LEFT JOIN article_type b ON a.belong_type = b.id
+		where article_id = #{articleId,jdbcType=INTEGER}
+	</select>
+	<select id="countAll" resultType="int">
+		select
+		count(*)
+		from article
+		where
+		ispublish = 1
+	</select>
+	<select id="countAllHits" resultType="int">
+		select
+		sum(hits)
+		from article
+		where
+		ispublish = 1
+	</select>
+	<select id="countAllLiked" resultType="int">
+		select
+		sum(liked)
+		from article
+		where
+		ispublish = 1
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from article
+		where article_id = #{articleId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.mlxp.model.Article">
+		insert into article (article_id, tittle, author,
+		belong_type, ispublish, iselite,
+		ontop, hits, create_time,
+		update_time, content)
+		values (#{articleId,jdbcType=INTEGER}, #{tittle,jdbcType=VARCHAR},
+		#{author,jdbcType=VARCHAR},
+		#{belongType,jdbcType=INTEGER}, #{ispublish,jdbcType=INTEGER}, #{iselite,jdbcType=INTEGER},
+		#{ontop,jdbcType=INTEGER}, #{hits,jdbcType=INTEGER},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.mlxp.model.Article"
+		useGeneratedKeys="true" keyProperty="articleId">
+		insert into article
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="articleId != null">
+				article_id,
+			</if>
+			<if test="tittle != null">
+				tittle,
+			</if>
+			<if test="author != null">
+				author,
+			</if>
+			<if test="belongType != null">
+				belong_type,
+			</if>
+			<if test="ispublish != null">
+				ispublish,
+			</if>
+			<if test="iselite != null">
+				iselite,
+			</if>
+			<if test="ontop != null">
+				ontop,
+			</if>
+			<if test="liked != null">
+				liked,
+			</if>
+			<if test="hits != null">
+				hits,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="articleId != null">
+				#{articleId,jdbcType=INTEGER},
+			</if>
+			<if test="tittle != null">
+				#{tittle,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null">
+				#{author,jdbcType=VARCHAR},
+			</if>
+			<if test="belongType != null">
+				#{belongType,jdbcType=INTEGER},
+			</if>
+			<if test="ispublish != null">
+				#{ispublish,jdbcType=INTEGER},
+			</if>
+			<if test="iselite != null">
+				#{iselite,jdbcType=INTEGER},
+			</if>
+			<if test="ontop != null">
+				#{ontop,jdbcType=INTEGER},
+			</if>
+			<if test="liked != null">
+				#{liked,jdbcType=INTEGER},
+			</if>
+			<if test="hits != null">
+				#{hits,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mlxp.model.Article">
+		update article
+		<set>
+			<if test="tittle != null">
+				tittle = #{tittle,jdbcType=VARCHAR},
+			</if>
+			<if test="author != null">
+				author = #{author,jdbcType=VARCHAR},
+			</if>
+			<if test="belongType != null">
+				belong_type = #{belongType,jdbcType=INTEGER},
+			</if>
+			<if test="ispublish != null">
+				ispublish = #{ispublish,jdbcType=INTEGER},
+			</if>
+			<if test="iselite != null">
+				iselite = #{iselite,jdbcType=INTEGER},
+			</if>
+			<if test="ontop != null">
+				ontop = #{ontop,jdbcType=INTEGER},
+			</if>
+			<if test="hits != null">
+				hits = #{hits,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where article_id = #{articleId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mlxp.model.Article">
+		update article
+		set tittle = #{tittle,jdbcType=VARCHAR},
+		author = #{author,jdbcType=VARCHAR},
+		belong_type = #{belongType,jdbcType=INTEGER},
+		ispublish = #{ispublish,jdbcType=INTEGER},
+		iselite = #{iselite,jdbcType=INTEGER},
+		ontop = #{ontop,jdbcType=INTEGER},
+		hits = #{hits,jdbcType=INTEGER},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP},
+		content = #{content,jdbcType=LONGVARCHAR}
+		where article_id = #{articleId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.mlxp.model.Article">
+		update article
+		set tittle = #{tittle,jdbcType=VARCHAR},
+		author = #{author,jdbcType=VARCHAR},
+		belong_type = #{belongType,jdbcType=INTEGER},
+		ispublish = #{ispublish,jdbcType=INTEGER},
+		iselite = #{iselite,jdbcType=INTEGER},
+		ontop = #{ontop,jdbcType=INTEGER},
+		hits = #{hits,jdbcType=INTEGER},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		update_time = #{updateTime,jdbcType=TIMESTAMP}
+		where article_id = #{articleId,jdbcType=INTEGER}
+	</update>
+	<select id="listAll" resultMap="ResultMapWithBLOBs">
+		SELECT
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		FROM
+		article
+	</select>
+	<select id="listAllWithType" resultType="com.mlxp.model.Article">
+		SELECT
+		<include refid="With_Type_Column_List" />
+		FROM
+		article a
+		LEFT JOIN article_type b ON a.belong_type = b.id
+	</select>
+	<select id="listByArticleSelective" parameterType="com.mlxp.model.Article"
+		resultType="com.mlxp.model.Article">
+		SELECT
+		<include refid="With_Type_Column_List" />
+		FROM
+		article a
+		LEFT JOIN article_type b ON a.belong_type = b.id
+		Where 1=1
+		<if test="tittle != null">
+			and a.tittle like CONCAT('%',#{tittle,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="author != null">
+			and a.author like CONCAT('%',#{author,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="belongType != null">
+			and a.belong_type = #{belongType,jdbcType=INTEGER}
+		</if>
+		<if test="ispublish != null">
+			and a.ispublish = #{ispublish,jdbcType=INTEGER}
+		</if>
+		<if test="iselite != null">
+			and a.iselite = #{iselite,jdbcType=INTEGER}
+		</if>
+		<if test="ontop != null">
+			and a.ontop = #{ontop,jdbcType=INTEGER}
+		</if>
+		<if test="content != null">
+			and a.content like CONCAT('%',#{content,jdbcType=LONGVARCHAR},'%')
+		</if>
+	</select>
+	<update id="updateLikedPlusOne" parameterType="java.lang.Integer">
+		update article
+		set liked = liked + 1
+		where article_id = #{articleId,jdbcType=INTEGER}
+	</update>
+	<update id="updateLikedSubOne" parameterType="java.lang.Integer">
+		update article
+		set liked = liked - 1
+		where article_id = #{articleId,jdbcType=INTEGER}
+	</update>
+	<update id="updateHitsPlusOne" parameterType="java.lang.Integer">
+		update article
+		set hits = hits + 1
+		where article_id = #{articleId,jdbcType=INTEGER}
+	</update>
+</mapper>

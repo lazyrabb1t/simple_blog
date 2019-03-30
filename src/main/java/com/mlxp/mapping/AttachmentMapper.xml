@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mlxp.dao.AttachmentMapper">
+	<resultMap id="BaseResultMap" type="com.mlxp.model.Attachment">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="oriid" jdbcType="INTEGER" property="oriid" />
+		<result column="filename" jdbcType="VARCHAR" property="filename" />
+		<result column="savepath" jdbcType="VARCHAR" property="savepath" />
+		<result column="savetime" jdbcType="TIMESTAMP" property="savetime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, type, oriid, filename, savepath, savetime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from attachment
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectByOrigin" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from attachment
+		where oriid = #{oriid,jdbcType=INTEGER} and type = #{type,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByOrigin" parameterType="java.lang.Integer">
+		delete from attachment
+		where oriid = #{oriid,jdbcType=INTEGER} and type = #{type,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from attachment
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.mlxp.model.Attachment">
+		insert into attachment (id, type, oriid,
+		filename, savepath, savetime
+		)
+		values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
+		#{oriid,jdbcType=INTEGER},
+		#{filename,jdbcType=VARCHAR}, #{savepath,jdbcType=VARCHAR}, #{savetime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.mlxp.model.Attachment">
+		insert into attachment
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="oriid != null">
+				oriid,
+			</if>
+			<if test="filename != null">
+				filename,
+			</if>
+			<if test="savepath != null">
+				savepath,
+			</if>
+			<if test="savetime != null">
+				savetime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="oriid != null">
+				#{oriid,jdbcType=INTEGER},
+			</if>
+			<if test="filename != null">
+				#{filename,jdbcType=VARCHAR},
+			</if>
+			<if test="savepath != null">
+				#{savepath,jdbcType=VARCHAR},
+			</if>
+			<if test="savetime != null">
+				#{savetime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.mlxp.model.Attachment">
+		update attachment
+		<set>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="oriid != null">
+				oriid = #{oriid,jdbcType=INTEGER},
+			</if>
+			<if test="filename != null">
+				filename = #{filename,jdbcType=VARCHAR},
+			</if>
+			<if test="savepath != null">
+				savepath = #{savepath,jdbcType=VARCHAR},
+			</if>
+			<if test="savetime != null">
+				savetime = #{savetime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.mlxp.model.Attachment">
+		update attachment
+		set type = #{type,jdbcType=INTEGER},
+		oriid = #{oriid,jdbcType=INTEGER},
+		filename = #{filename,jdbcType=VARCHAR},
+		savepath = #{savepath,jdbcType=VARCHAR},
+		savetime = #{savetime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

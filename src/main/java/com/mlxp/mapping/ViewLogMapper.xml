@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mlxp.dao.ViewLogMapper">
+	<resultMap id="BaseResultMap" type="com.mlxp.model.ViewLog">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="Uri" jdbcType="VARCHAR" property="uri" />
+		<result column="IPAddress" jdbcType="VARCHAR" property="ipaddress" />
+		<result column="ViewType" jdbcType="INTEGER" property="viewtype" />
+		<result column="ViewTime" jdbcType="TIMESTAMP" property="viewtime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, Uri, IPAddress, ViewType, ViewTime
+	</sql>
+	<select id="countAll" parameterType="java.lang.Integer"
+		resultType="int">
+		select
+		count(*)
+		from view_log
+		<if test="viewType==0">
+			where ViewType = 0
+		</if>
+	</select>
+	<select id="countNDaysBefore" parameterType="java.lang.Integer"
+		resultType="int">
+		SELECT
+		count(*) as count,DATE_FORMAT(ViewTime, '%Y-%m-%d') as visitTime
+		FROM view_log
+		WHERE
+		DATEDIFF(NOW(),ViewTime) = #{days}
+		<if test="viewType==0">
+			and ViewType = 0
+		</if>
+	</select>
+	<select id="countNDays" parameterType="java.lang.Integer"
+		resultType="com.mlxp.dto.VisitMessage">
+		SELECT
+		count(*) as count,DATE_FORMAT(ViewTime, '%Y-%m-%d') as visitTime
+		FROM view_log
+		WHERE
+		DATE_SUB(CURDATE(), INTERVAL #{days} DAY) &lt;=
+		ViewTime
+		<if test="viewType==0">
+			and ViewType = 0
+		</if>
+		GROUP BY visitTime
+		ORDER BY visitTime ASC
+	</select>
+	<insert id="insertSelective" parameterType="com.mlxp.model.ViewLog">
+		insert into view_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="uri != null">
+				Uri,
+			</if>
+			<if test="ipaddress != null">
+				IPAddress,
+			</if>
+			<if test="viewtype != null">
+				ViewType,
+			</if>
+			<if test="viewtime != null">
+				ViewTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="uri != null">
+				#{uri,jdbcType=VARCHAR},
+			</if>
+			<if test="ipaddress != null">
+				#{ipaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="viewtype != null">
+				#{viewtype,jdbcType=INTEGER},
+			</if>
+			<if test="viewtime != null">
+				#{viewtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+</mapper>

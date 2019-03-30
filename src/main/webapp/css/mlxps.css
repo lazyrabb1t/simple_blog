@@ -1,0 +1,84 @@
+.input01 {
+	border-radius: 4px;
+	color: #66615b;
+	font-size: 14px;
+	transition: background-color 0.3s ease 0s;
+	padding: 7px 10px;
+	height: 30px;
+	border: 1px solid #CCC5B9;
+}
+
+.table01 thead, .table01 tr {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #ddd;
+	height: 40px;
+}
+
+.table01 {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #ddd;
+	border-collapse: collapse;
+}
+
+a {
+	text-decoration: none
+}
+/* Padding and font style */
+.table01 td, .table01 th {
+	padding: 5px 10px;
+	font-size: 12px;
+	font-family: Verdana;
+	color: #9A9A9A;
+}
+
+/* Alternating background colors */
+.table01 tr:nth-child(even) {
+	background: #fffcf5;
+}
+
+.table01 tr:nth-child(odd) {
+	background: #FFF
+}
+
+.btn2 {
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	touch-action: manipulation;
+	cursor: pointer;
+	user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+
+.btn-primary {
+	color: #fff;
+	background-color: #337ab7;
+	border-color: #2e6da4;
+}
+
+.btn-warning {
+	color: #fff;
+	background-color: #f0ad4e;
+	border-color: #eea236;
+}
+
+.btn-danger {
+	color: #fff;
+	background-color: #d9534f;
+	border-color: #d43f3a;
+}
+
+.btn-default {
+	color: #333;
+	background-color: #fff;
+	border-color: #ccc;
+}
