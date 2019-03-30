@@ -2,4 +2,4 @@
 
 一个简单的博客系统
 
-效果http://blog.lazyrabbit.xyz/
+http://blog.lazyrabbit.xyz/
