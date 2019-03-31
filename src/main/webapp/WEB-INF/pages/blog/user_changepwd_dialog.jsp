@@ -74,7 +74,7 @@
 					if (data.success) {
 						$("#myModal").modal('hide');
 						alert("修改成功,请重新登录...");
-						window.location.href="${pageContext.request.contextPath }/login/out";
+						window.location.href="${pageContext.request.contextPath }/logout";
 					}
 				});
 			}
