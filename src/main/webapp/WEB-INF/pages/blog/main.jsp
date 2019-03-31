@@ -78,7 +78,7 @@
 							<ul class="dropdown-menu">
 								<li><a href="javascript:void(0);"
 									onclick="changepwdModel();">修改密码</a></li>
-								<li><a href="${pageContext.request.contextPath }/login/out">退出</a></li>
+								<li><a href="${pageContext.request.contextPath }/logout">退出</a></li>
 							</ul></li>
 					</ul>
 

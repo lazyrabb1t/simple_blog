@@ -23,25 +23,24 @@ import com.mlxp.util.DateUtil;
 import sun.misc.BASE64Encoder;
 
 @Controller
-@RequestMapping("login")
 public class LoginController {
 
     @Autowired
     private UserService userservice;
 
-    @RequestMapping(value = "/index")
+    @RequestMapping(value = "/login")
     private String index() {
         return "blog/login";
     }
 
-    @RequestMapping(value = "/out")
+    @RequestMapping(value = "/logout")
     private String logout(HttpServletRequest request, HttpServletResponse response) {
         // request.getSession().removeAttribute("currentuser");
         CookieUtil.removeCookie(response, "currentuser");
         return "blog/login";
     }
 
-    @RequestMapping("/check")
+    @RequestMapping("/login/check")
     @ResponseBody
     public Result<User> checkLogin(String accountname, String password, ModelMap model, HttpServletRequest request, HttpServletResponse response)
             throws NoSuchAlgorithmException, UnsupportedEncodingException {
