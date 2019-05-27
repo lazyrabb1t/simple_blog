@@ -15,7 +15,7 @@
 		<junit.version>4.10</junit.version>
 		<!-- mybatis版本号 -->
 		<mybatis.version>3.2.1</mybatis.version>
-		<jackjson.version>2.8.8</jackjson.version>
+		<jackjson.version>2.9.9</jackjson.version>
 	</properties>
 
 	<dependencies>
